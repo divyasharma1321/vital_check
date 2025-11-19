@@ -1,0 +1,414 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>VitalCheck - Supplement Recommender</title>
+
+  <style>
+    
+    :root{
+      --accent-gradient: linear-gradient(to right,#3B82F6,#9333EA);
+      --card-bg:#fff;
+      --muted:#666;
+      --accent:#3B82F6;
+    }
+
+    body{
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;
+      margin:0;
+      background:#f3f4f6;
+    }
+
+   
+    header{
+      padding:1rem 0;
+      background:var(--accent-gradient);
+      color:#fff;
+      box-shadow:0 2px 10px rgba(0,0,0,0.1);
+    }
+    .container{
+      margin:0 auto;
+      max-width:1200px;
+      width:90%;
+      padding:0 15px;
+    }
+    .header-content{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .logo{
+      font-weight:700;
+      display:flex;
+      align-items:center;
+      font-size:1.8rem;
+    }
+    .logo-icon{
+      font-size:2rem;
+      margin-right:10px;
+    }
+    nav ul{
+      list-style:none;
+      display:flex;
+    }
+    nav ul li{
+      margin-left:1.4rem;
+    }
+    nav ul li a{
+      text-decoration:none;
+      color:white;
+      font-weight:500;
+      padding:5px 10px;
+      border-radius:4px;
+      transition:.3s;
+    }
+    nav ul li a:hover{
+      background-color:rgba(255,255,255,0.20);
+    }
+
+    
+    .wrap{
+      width:100%;
+      max-width:760px;
+      margin:40px auto;
+      padding:20px;
+    }
+
+    .card{
+      background:var(--card-bg);
+      border-radius:14px;
+      padding:26px;
+      box-shadow:0 6px 18px rgba(15,23,42,0.08);
+    }
+
+    h1{
+      margin:0 0 18px;
+      text-align:center;
+      background:var(--accent-gradient);
+      -webkit-background-clip:text;
+      color:transparent;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+
+    label{
+      font-weight:600;
+      color:#111;
+      font-size:14px;
+    }
+
+    .controls{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    input[type=text], select{
+      padding:8px;
+      border:1px solid #ddd;
+      border-radius:6px;
+    }
+
+    .checkboxes{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+
+    .btn{
+      background:var(--accent-gradient);
+      color:white;
+      padding:10px 14px;
+      border-radius:8px;
+      border:0;
+      cursor:pointer;
+      font-weight:600;
+    }
+
+    .result{
+      margin-top:18px;
+      padding:14px;
+      border-radius:8px;
+      background:#f8fafc;
+      border:1px solid #e6eefc;
+      min-height:120px;
+    }
+
+    .pill{
+      display:inline-block;
+      background:#eef6ff;
+      color:#3B82F6;
+      padding:6px 10px;
+      border-radius:999px;
+      margin:6px 6px 0 0;
+      font-weight:600;
+    }
+
+    .muted{
+      color:var(--muted);
+    }
+
+    .explain{
+      margin-top:8px;
+      color:#444;
+      font-size:14px;
+    }
+
+    @media(max-width:700px){
+      .grid{grid-template-columns:1fr;}
+    }
+
+    
+    footer{
+      padding:3rem 0;
+      background:#1a1a1a;
+      margin-top:4rem;
+      text-align:center;
+      color:white;
+    }
+    .footer-content{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+    }
+    .footer-links{
+      margin:2rem 0;
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+    }
+    .footer-links a{
+      margin:0 1rem;
+      color:white;
+      text-decoration:none;
+      transition:.3s;
+    }
+    .footer-links a:hover{opacity:.8;}
+  </style>
+</head>
+
+<body>
+
+
+<header>
+    <div class="container">
+        <div class="header-content">
+            <div class="logo">
+                <span class="logo-icon">✢</span>
+                <span>VitalCheck</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a  href="homepage.html">Home</a></li>
+                    <li><a href="HowItWorks.html">How It Works</a></li>
+                    <li><a href="sign_up.html">Sign Up</a></li>
+                    <li><a style="background-color:rgba(255,255,255,0.2);" href="#">Get Recommendations</a></li>
+                    <li><a href="feedback.html">Feedback</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>
+
+
+<div class="wrap">
+  <div class="card">
+
+    <h1> Supplement Recommender</h1>
+
+    <div class="grid">
+      <div class="controls">
+
+        <label style="font-size:20px;">Name</label>
+        <input id="name" type="text" placeholder="Optional" />
+
+        <label style="font-size:20px;">Gender</label>
+        <div>
+          <label><input type="radio" name="gender" value="Male" checked> Male</label>
+          &nbsp;&nbsp;
+          <label><input type="radio" name="gender" value="Female"> Female</label>
+          &nbsp;&nbsp;
+          <label><input type="radio" name="gender" value="Other"> Other</label>
+        </div>
+
+        <label style="font-size:20px;">Age range</label>
+        <select id="ageRange">
+          <option value="0-12">0-12</option>
+          <option value="13-17">13-17</option>
+          <option value="18-24">18-24</option>
+          <option value="25-34">25-34</option>
+          <option value="35-44">35-44</option>
+          <option value="45-54">45-54</option>
+          <option value="55-64">55-64</option>
+          <option value="65+">65+</option>
+        </select>
+
+      </div>
+
+      <div class="controls">
+        <label style="font-size:20px;" >Allergies</label>
+        <div class="checkboxes" id="allergyList">
+          <label><input type="checkbox" value="Pollen"> Pollen</label>
+          <label><input type="checkbox" value="Dust"> Dust</label>
+          <label><input type="checkbox" value="Peanuts"> Peanuts</label>
+          <label><input type="checkbox" value="Milk"> Milk</label>
+          <label><input type="checkbox" value="Eggs"> Eggs</label>
+          <label><input type="checkbox" value="Seafood"> Seafood</label>
+        </div>
+
+        <label style="margin-top:8px; font-size:20px;" >Diseases / Conditions</label>
+        <div class="checkboxes" id="diseaseList">
+          <label><input type="checkbox" value="Diabetes"> Diabetes</label>
+          <label><input type="checkbox" value="Asthma"> Asthma</label>
+          <label><input type="checkbox" value="Hypertension"> Hypertension</label>
+          <label><input type="checkbox" value="Heart Disease"> Heart Disease</label>
+          <label><input type="checkbox" value="Arthritis"> Arthritis</label>
+          <label><input type="checkbox" value="Thyroid"> Thyroid</label>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:14px;">
+      <button class="btn" id="recommendBtn">Recommend Supplements</button>
+    </div>
+
+    <div id="output" class="result">
+      <div class="muted">Results will appear here after clicking <strong>Recommend Supplements</strong>.</div>
+    </div>
+
+  </div>
+</div>
+
+
+<footer>
+  <div class="container">
+    <div class="footer-content">
+      <div class="logo">
+        <span class="logo-icon">✢</span>
+        <span>VitalCheck</span>
+      </div>
+
+
+      <p>© 2025 VitalCheck. All rights reserved. This information is for educational purposes only and is not medical advice.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+
+const ageRules = {
+  "0-12": ["Children Multivitamin","Vitamin D","Calcium","Probiotics"],
+  "13-17": ["Multivitamin","Vitamin D","Zinc","B-Complex","Omega-3 (Fish Oil)","Iron (if deficient)"],
+  "18-24": ["Multivitamin","Vitamin D3","Omega-3 (Fish Oil)","Magnesium","B-Complex","Probiotics"],
+  "25-34": ["Vitamin D3","Omega-3 (Fish Oil)","B-Complex","Multivitamin","Magnesium"],
+  "35-44": ["Vitamin D3","Omega-3 (Fish Oil)","Calcium","Magnesium","CoQ10","Probiotics"],
+  "45-54": ["Vitamin D3","Calcium","Magnesium","CoQ10","Omega-3 (Fish Oil)","Joint Support"],
+  "55-64": ["Vitamin D3","Calcium","Magnesium","CoQ10","Omega-3 (Fish Oil)","Vitamin B12","Probiotics"],
+  "65+": ["Vitamin D3","Calcium","Magnesium","Vitamin B12","Omega-3 (Fish Oil)","CoQ10","Multivitamin (Senior)"]
+};
+
+const diseaseRules = {
+  "Diabetes": ["Magnesium","Vitamin D","Chromium","Alpha Lipoic Acid (ALA)","Cinnamon extract (if no herb allergy)"],
+  "Asthma": ["Vitamin C","Omega-3 (Fish Oil)","Magnesium","Quercetin (if no plant/herb allergy)"],
+  "Hypertension": ["CoQ10","Magnesium","Omega-3 (Fish Oil)","Potassium (doctor approval)"],
+  "Heart Disease": ["CoQ10","Magnesium","Omega-3 (Fish Oil)","Vitamin D","Vitamin K2"],
+  "Arthritis": ["Omega-3 (Fish Oil)","Turmeric/Curcumin (if no herb allergy)","Vitamin D","Calcium","Glucosamine (avoid with shellfish allergy)"],
+  "Thyroid": ["Selenium","Zinc","Vitamin D","B-Complex","Magnesium"]
+};
+
+const allergyRestrictions = {
+  "Seafood": { remove:["Omega-3 (Fish Oil)","Fish Oil"], add:["Omega-3 (Flaxseed)"] },
+  "Peanuts": { remove:["Peanut oil"], add:[] },
+  "Milk": { remove:["Whey protein","Milk-based probiotics","Milk-based"], add:[] },
+  "Eggs": { remove:["Egg-shell calcium"], add:[] },
+  "Pollen": { remove:["Turmeric/Curcumin (if no herb allergy)","Quercetin (if no plant/herb allergy)","Cinnamon extract (if no herb allergy)"], add:[] },
+  "Dust":   { remove:["Turmeric/Curcumin (if no herb allergy)","Quercetin (if no plant/herb allergy)","Cinnamon extract (if no herb allergy)"], add:[] }
+};
+
+function addUnique(target,items){
+  items.forEach(i=>{ if(i && !target.includes(i)) target.push(i); });
+}
+
+function buildRecommendations({ageRange, gender, allergies, diseases}){
+  let recs=[];
+  addUnique(recs, ageRules[ageRange] || []);
+  diseases.forEach(d => addUnique(recs, diseaseRules[d] || []));
+
+  let removedBecauseAllergy=new Set();
+  allergies.forEach(a=>{
+    const rule=allergyRestrictions[a];
+    if(!rule) return;
+    (rule.remove||[]).forEach(r=>{
+      recs=recs.filter(x => !x.includes(r) && x!==r);
+      removedBecauseAllergy.add(r);
+    });
+    addUnique(recs, rule.add||[]);
+  });
+
+  recs = recs.map(r => 
+    r.replace(/\s*\(if no herb allergy\)|\s*\(if no plant\/herb allergy\)/ig,'').trim()
+  );
+
+  const herbItems=["Turmeric/Curcumin","Quercetin","Cinnamon extract","Ashwagandha"];
+  if(allergies.includes('Pollen') || allergies.includes('Dust')){
+    recs = recs.filter(r => !herbItems.some(h => r.toLowerCase().includes(h.toLowerCase())));
+  }
+
+  recs=[...new Set(recs)];
+  return {recs, removed:[...removedBecauseAllergy]};
+}
+
+document.getElementById('recommendBtn').addEventListener('click', ()=>{
+  const name=document.getElementById('name').value.trim();
+  const ageRange=document.getElementById('ageRange').value;
+  const gender=document.querySelector('input[name="gender"]:checked').value;
+  const allergies=[...document.querySelectorAll('#allergyList input:checked')].map(i=>i.value);
+  const diseases=[...document.querySelectorAll('#diseaseList input:checked')].map(i=>i.value);
+
+  const {recs, removed}=buildRecommendations({ageRange,gender,allergies,diseases});
+  const output=document.getElementById('output');
+  output.innerHTML='';
+
+  const profile=document.createElement('div');
+  profile.innerHTML=`<strong>Profile:</strong> ${name ? name+' - ' : ''}${gender}, Age: ${ageRange}`;
+  output.appendChild(profile);
+
+  const info=document.createElement('div');
+  info.innerHTML=`<strong>Allergies:</strong> ${allergies.length ? allergies.join(', ') : '<span class="muted">None</span>'}<br><strong>Conditions:</strong> ${diseases.length ? diseases.join(', ') : '<span class="muted">None</span>'}`;
+  info.className='explain';
+  output.appendChild(info);
+
+  const result=document.createElement('div');
+  result.style.marginTop='10px';
+
+  if(!recs.length){
+    result.innerHTML='<div class="muted">No safe recommendations found.</div>';
+  }else{
+    result.innerHTML='<strong>Recommended Supplements:</strong><br>';
+    recs.forEach(r=>{
+      const pill=document.createElement('span');
+      pill.className='pill';
+      pill.textContent=r;
+      result.appendChild(pill);
+    });
+
+    if(removed.length){
+      const rem=document.createElement('div');
+      rem.className='explain';
+      rem.innerHTML=`<strong>Removed due to allergy:</strong> ${removed.join(', ')}`;
+      result.appendChild(rem);
+    }
+  }
+
+  output.appendChild(result);
+});
+</script>
+
+</body>
+</html>
